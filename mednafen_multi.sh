@@ -77,13 +77,13 @@ main() {
         filter_str="[0:v]pad=iw*${WINDOW_COUNT}:ih[t0]"
         map_str=""
         for window in $(seq 1 $WINDOW_COUNT); do
-            input_str="${input_str} -f x11grab -r 25 -video_size 1280x800 -i :${window}"
+            input_str="${input_str} -f x11grab -r 60 -video_size 1280x800 -i :${window}"
             if [[ window -lt WINDOW_COUNT ]]; then
                 filter_str="${filter_str}; [t$(( $window-1 ))][$window:v]overlay=w:x=$(( 1280*(window) ))[t$window]"
                 map_str="[t$window]"
             fi
         done
-        ffmpeg  ${input_str} -filter_complex "${filter_str}" -map "$map_str"\
+        ffmpeg ${input_str} -filter_complex "${filter_str}" -map "$map_str"\
             -c:v libx264 -preset ultrafast -crf 22 \
             "$RECORD_DIR/$RECORD_NAME" &
     fi
