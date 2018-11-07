@@ -29,5 +29,5 @@ update-vendor:
 	cp /tmp/mednafen-1.21.3.tar.xz vendor/mednafen-1.21.3.tar.xz
 
 $(DAPPER_BIN):
-	curl -sL https://releases.rancher.com/dapper/latest/dapper-`uname -s`-`uname -m` > $(DAPPER_BIN)
-	chmod +x $(DAPPER_BIN)
+	sudo curl -sL https://releases.rancher.com/dapper/latest/dapper-`uname -s`-`uname -m` > $(DAPPER_BIN)
+	sudo chmod +x $(DAPPER_BIN)
