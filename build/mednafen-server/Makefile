@@ -12,17 +12,22 @@ clean:
 	rm -f --interactive=never $(BIN_NAME)
 
 $(BIN_NAME): $(SOURCE_DIR)
-	# convert to build in dapper
 	cd $(SOURCE_DIR) && ./configure
 	cd $(SOURCE_DIR) && $(MAKE)
 	cp $(SOURCE_DIR)/src/mednafen-server $(BIN_NAME)
 
 $(SOURCE_DIR):
-	curl -o $(SOURCE_DIR).tar.xz https://mednafen.github.io/releases/files/mednafen-server-0.5.2.tar.xz
 	mkdir $(SOURCE_DIR)
-	tar -xf $(SOURCE_DIR).tar.xz -C $(SOURCE_DIR) --strip-components=1
-	rm $(SOURCE_DIR).tar.xz
+	tar -xf vendor/mednafen-server-0.5.2.tar.xz -C $(SOURCE_DIR) --strip-components=1
+
+.PHONY: update-vendor
+update-vendor:
+	# update the vendored copy of mednafen-server
+	# version may need to be bumped later
+	curl -o /tmp/mednafen-server-0.5.2.tar.xz https://mednafen.github.io/releases/files/mednafen-server-0.5.2.tar.xz
+	rm -f vendor/mednafen-server-0.5.2.tar.xz
+	cp /tmp/mednafen-server-0.5.2.tar.xz vendor/mednafen-server-0.5.2.tar.xz
 
 $(DAPPER_BIN):
-	curl -sL https://releases.rancher.com/dapper/latest/dapper-`uname -s`-`uname -m` > $(DAPPER_BIN)
-	chmod +x $(DAPPER_BIN)
+	sudo curl -sL https://releases.rancher.com/dapper/latest/dapper-`uname -s`-`uname -m` > $(DAPPER_BIN)
+	sudo chmod +x $(DAPPER_BIN)
