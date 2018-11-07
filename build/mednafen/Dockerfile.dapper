@@ -1,4 +1,4 @@
-FROM		ubuntu
+FROM		ubuntu:18.04
 
 RUN		apt-get -qqy update && DEBIAN_FRONTEND=noninteractive apt-get -qqy install build-essential pkg-config libasound2-dev libsdl2-dev libsndfile1-dev zlib1g-dev curl
 
